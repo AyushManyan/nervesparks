@@ -38,6 +38,8 @@ export default {
 
   // Daily Progress
   dailyProgress: (userId) => api.get(`/api/users/${userId}/daily-progress`),
+  // Ingredient substitution
+  substituteIngredient: (ingredient) => api.get(`/api/recipes/substitute/${encodeURIComponent(ingredient)}`),
 
   // Health
   healthCheck: (payload) => api.post('/api/health/check', payload),
