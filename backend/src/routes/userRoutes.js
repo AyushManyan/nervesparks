@@ -8,6 +8,6 @@ router.use(auth);
 router.get('/me', me);
 router.patch('/me/preferences', updatePreferences);
 router.get('/:userId/progress', getMonthlyProgress);
-router.get('/:userId/daily-progress', getDailyProgress);
+router.get('/daily-progress', getDailyProgress);
 
 export default router;

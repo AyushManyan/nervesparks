@@ -26,7 +26,7 @@ export default function Nav(){
               <Link to="/intake" className="text-sm text-gray-700 hover:text-brand-700">Intake</Link>
               <Link to="/recommend" className="text-sm text-gray-700 hover:text-brand-700">Recommend</Link>
               <Link to="/health-check" className="text-sm text-gray-700 hover:text-brand-700">Health Check</Link>
-              <Link to="/daily-progress" className="text-sm text-gray-700 hover:text-brand-700">Daily Progress</Link>
+              <Link to="/daily-progress" className="text-sm text-gray-700 hover:text-brand-700">Progress</Link>
               <Link to="/profile" className="text-sm text-gray-700 hover:text-brand-700">{user.name}</Link>
               <button onClick={logout} className="btn-ghost">Logout</button>
             </>

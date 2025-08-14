@@ -1,14 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { getUser } from '../utils/auth';
 
 export default function RecipeDetail(){
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [subs, setSubs] = useState({});
+  const [warnings, setWarnings] = useState([]);
 
   useEffect(()=>{
-    api.getRecipe(id).then(res => setRecipe(res.data)).catch(console.error);
+    api.getRecipe(id).then(res => {
+      setRecipe(res.data);
+      // Dietary restriction checks
+      const user = getUser();
+      if (user) {
+        const restrictions = (user.diet||[]).map(s=>s.toLowerCase());
+        const allergies = (user.allergies||[]).map(s=>s.toLowerCase());
+        const recipeIngredients = (res.data.ingredients||[]).map(s=>s.toLowerCase());
+        const restricted = recipeIngredients.filter(ing => restrictions.includes(ing));
+        const allergic = recipeIngredients.filter(ing => allergies.includes(ing));
+        const warn = [];
+        if (restricted.length)
+          warn.push(`This recipe contains ingredients restricted by your diet: ${restricted.join(', ')}`);
+        if (allergic.length)
+          warn.push(`Warning: This recipe contains ingredients you are allergic to: ${allergic.join(', ')}`);
+        setWarnings(warn);
+      } else {
+        setWarnings([]);
+      }
+    }).catch(console.error);
   }, [id]);
 
   async function handleSubstitute(ingredient) {
@@ -37,6 +58,15 @@ export default function RecipeDetail(){
     return (
       <div className="max-w-2xl mx-auto px-4 py-8">
         <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+          {warnings.length > 0 && (
+            <div className="mb-4">
+              {warnings.map((w, i) => (
+                <div key={i} className="bg-red-100 text-red-700 px-3 py-2 rounded mb-2 border border-red-300">
+                  {w}
+                </div>
+              ))}
+            </div>
+          )}
           <h1 className="text-3xl font-extrabold text-gray-900 mb-2">{recipe.name}</h1>
           <div className="text-base text-gray-500 mb-4 flex flex-wrap gap-2">
             <span className="bg-gray-100 px-2 py-1 rounded">{recipe.cuisine}</span>

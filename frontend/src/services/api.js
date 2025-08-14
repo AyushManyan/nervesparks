@@ -37,7 +37,7 @@ export default {
   progress: (date) => api.get('/api/intake/progress', { params: { date } }),
 
   // Daily Progress
-  dailyProgress: (userId) => api.get(`/api/users/${userId}/daily-progress`),
+  dailyProgress: () => api.get(`/api/users/daily-progress`),
   // Ingredient substitution
   substituteIngredient: (ingredient) => api.get(`/api/recipes/substitute/${encodeURIComponent(ingredient)}`),
 

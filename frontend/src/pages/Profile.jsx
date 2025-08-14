@@ -2,27 +2,45 @@ import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { getUser, setUser } from '../utils/auth';
 
-export default function Profile(){
-  const [user,setLocalUser] = useState(getUser());
-  const [prefs,setPrefs] = useState({ diet: [], allergies: [], disliked: [], health_conditions: [], goals: {} });
+export default function Profile() {
+  const [user, setLocalUser] = useState(getUser());
+  const [prefs, setPrefs] = useState({
+    disliked: [],
+    health_conditions: [],
+    goals: {}
+  });
 
-  useEffect(()=> {
-    api.me().then(res => {
-      setLocalUser(res.data);
-      setPrefs({ diet: res.data.diet||[], allergies: res.data.allergies||[], disliked: res.data.disliked||[], health_conditions: res.data.health_conditions||[], goals: res.data.goals||{} });
-    }).catch(console.error);
+  // Raw input states for diet & allergies
+  const [dietInput, setDietInput] = useState("");
+  const [allergiesInput, setAllergiesInput] = useState("");
+
+  useEffect(() => {
+    api.me()
+      .then(res => {
+        const data = res.data;
+        setLocalUser(data);
+        setPrefs({
+          disliked: data.disliked || [],
+          health_conditions: data.health_conditions || [],
+          goals: data.goals || {}
+        });
+        setDietInput((data.diet || []).join(', '));
+        setAllergiesInput((data.allergies || []).join(', '));
+      })
+      .catch(console.error);
   }, []);
-
-  function handleArrayChange(field, str) {
-    setPrefs(p => ({ ...p, [field]: str.split(',').map(s=>s.trim()).filter(Boolean) }));
-  }
 
   async function save() {
     try {
-      const res = await api.updatePreferences(prefs);
+      const processedPrefs = {
+        ...prefs,
+        diet: dietInput.split(',').map(s => s.trim()).filter(Boolean),
+        allergies: allergiesInput.split(',').map(s => s.trim()).filter(Boolean)
+      };
+      const res = await api.updatePreferences(processedPrefs);
       alert('Saved');
       setUser(res.data);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       alert('Save failed');
     }
@@ -37,20 +55,80 @@ export default function Profile(){
 
         <div className="mt-3">
           <label className="block text-sm">Diet (comma separated)</label>
-          <input value={(prefs.diet||[]).join(', ')} onChange={e=>handleArrayChange('diet', e.target.value)} className="w-full p-2 border rounded" />
+          <input
+            type="text"
+            value={dietInput}
+            onChange={e => setDietInput(e.target.value)}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div className="mt-3">
+          <label className="block text-sm font-semibold">Nutritional Goals</label>
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            <div>
+              <label className="block text-xs">Calories (kcal/day)</label>
+              <input
+                type="number"
+                min="0"
+                value={prefs.goals.calories || ''}
+                onChange={e => setPrefs(p => ({
+                  ...p,
+                  goals: { ...p.goals, calories: Number(e.target.value) }
+                }))}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block text-xs">Protein (g/day)</label>
+              <input
+                type="number"
+                min="0"
+                value={prefs.goals.protein || ''}
+                onChange={e => setPrefs(p => ({
+                  ...p,
+                  goals: { ...p.goals, protein: Number(e.target.value) }
+                }))}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block text-xs">Carbs (g/day)</label>
+              <input
+                type="number"
+                min="0"
+                value={prefs.goals.carbs || ''}
+                onChange={e => setPrefs(p => ({
+                  ...p,
+                  goals: { ...p.goals, carbs: Number(e.target.value) }
+                }))}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block text-xs">Fat (g/day)</label>
+              <input
+                type="number"
+                min="0"
+                value={prefs.goals.fat || ''}
+                onChange={e => setPrefs(p => ({
+                  ...p,
+                  goals: { ...p.goals, fat: Number(e.target.value) }
+                }))}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="mt-3">
           <label className="block text-sm">Allergies (comma separated)</label>
-          <input value={(prefs.allergies||[]).join(', ')} onChange={e=>handleArrayChange('allergies', e.target.value)} className="w-full p-2 border rounded" />
-        </div>
-
-        <div className="mt-3">
-          <label className="block text-sm">Goals (Calories, Protein)</label>
-          <div className="grid grid-cols-2 gap-2">
-            <input value={prefs.goals?.calories || ''} onChange={e=>setPrefs(p=>({...p, goals:{...p.goals, calories: Number(e.target.value)||0}}))} placeholder="calories" className="p-2 border rounded" />
-            <input value={prefs.goals?.protein || ''} onChange={e=>setPrefs(p=>({...p, goals:{...p.goals, protein: Number(e.target.value)||0}}))} placeholder="protein" className="p-2 border rounded" />
-          </div>
+          <input
+            type="text"
+            value={allergiesInput}
+            onChange={e => setAllergiesInput(e.target.value)}
+            className="w-full p-2 border rounded"
+          />
         </div>
 
         <div className="mt-3 flex gap-2">
