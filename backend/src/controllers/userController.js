@@ -1,3 +1,4 @@
+import Intake from '../models/Intake.js';
 import User from '../models/User.js';
 
 export async function me(req, res, next) {
@@ -45,6 +46,30 @@ export async function getMonthlyProgress(req, res, next) {
     const progress = user.calculateMonthlyProgress(intakes);
 
     // Return progress
+    res.json(progress);
+  } catch (e) {
+    next(e);
+  }
+}
+
+export async function getDailyProgress(req, res, next) {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().slice(0, 10);
+
+    // Fetch intakes for today
+    const intakes = await Intake.find({
+      userId,
+      date: today
+    });
+
+    // Calculate daily progress
+    const progress = user.calculateDailyProgress(intakes);
+
     res.json(progress);
   } catch (e) {
     next(e);
