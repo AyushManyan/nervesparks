@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* small custom styles */
+body {
+  @apply bg-white text-gray-800;
+}
+.header-brand {
+  @apply text-2xl font-bold text-brand-600;
+}
+.card {
+  @apply bg-white border border-gray-200 rounded-lg p-4 shadow-sm;
+}
+.btn-primary {
+  @apply bg-brand-500 text-white px-4 py-2 rounded hover:bg-brand-600;
+}
+.btn-ghost {
+  @apply bg-white border border-gray-200 px-3 py-1 rounded hover:bg-gray-50;
+}

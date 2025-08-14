@@ -22,15 +22,23 @@ export async function register(req, res, next) {
       goals
     });
 
+    const token = jwt.sign(
+      { sub: user._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES || '7d' }
+    );
     res.status(201).json({
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      diet: user.diet,
-      allergies: user.allergies,
-      disliked: user.disliked,
-      health_conditions: user.health_conditions,
-      goals: user.goals
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        diet: user.diet,
+        allergies: user.allergies,
+        disliked: user.disliked,
+        health_conditions: user.health_conditions,
+        goals: user.goals
+      }
     });
   } catch (e) {
     next(e);

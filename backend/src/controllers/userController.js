@@ -28,11 +28,9 @@ export async function getMonthlyProgress(req, res, next) {
   try {
     const { userId } = req.params;
 
-    // Fetch the user
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    // Get the current month
     const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     const endOfMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
 
@@ -42,10 +40,8 @@ export async function getMonthlyProgress(req, res, next) {
       date: { $gte: startOfMonth.toISOString(), $lte: endOfMonth.toISOString() },
     });
 
-    // Calculate progress
-    const progress = user.calculateMonthlyProgress(intakes);
 
-    // Return progress
+    const progress = user.calculateMonthlyProgress(intakes);
     res.json(progress);
   } catch (e) {
     next(e);
@@ -54,7 +50,10 @@ export async function getMonthlyProgress(req, res, next) {
 
 export async function getDailyProgress(req, res, next) {
   try {
+    console.log('Fetching daily progress for user:', req.user.id);
     const { userId } = req.params;
+    console.log(userId);
+
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -67,7 +66,7 @@ export async function getDailyProgress(req, res, next) {
       date: today
     });
 
-    // Calculate daily progress
+ 
     const progress = user.calculateDailyProgress(intakes);
 
     res.json(progress);

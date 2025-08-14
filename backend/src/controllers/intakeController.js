@@ -3,30 +3,45 @@ import Recipe from '../models/Recipe.js';
 import User from '../models/User.js';
 
 export async function logIntake(req, res, next) {
+
   try {
-    const { userId, recipeId, serving = 1, date } = req.body || {};
-    if (!userId || !recipeId) return res.status(400).json({ error: 'userId and recipeId required' });
+    console.log("runnig log take reqdlm");
+    
+    const { recipeId, serving = 1 } = req.body || {};
+    var date = new Date().toISOString().slice(0, 10);
+    const userId = req.user?.id; 
+    console.log(userId , recipeId, serving, date);
+    
+    if (!userId || !recipeId) {
+      return res.status(400).json({ error: 'userId and recipeId required' });
+    }
 
     const r = await Recipe.findById(recipeId);
     if (!r) return res.status(404).json({ error: 'recipe not found' });
     const n = r.nutritional_info || {};
 
     const entry = new Intake({
-      userId, recipeId, serving,
-      date: date || new Date().toISOString().slice(0,10),
-      calories: (n.calories||0) * serving,
-      protein: (n.protein||0) * serving,
-      carbs: (n.carbs||0) * serving,
-      fat: (n.fat||0) * serving,
+      userId,
+      recipeId,
+      serving,
+      date: date || new Date().toISOString().slice(0, 10),
+      calories: (n.calories || 0) * serving,
+      protein: (n.protein || 0) * serving,
+      carbs: (n.carbs || 0) * serving,
+      fat: (n.fat || 0) * serving,
     });
     await entry.save();
     res.status(201).json(entry);
-  } catch (e) { next(e); }
+  } catch (e) {
+    next(e);
+  }
 }
 
 export async function dailyProgress(req, res, next) {
   try {
-    const { userId, date = new Date().toISOString().slice(0,10) } = req.query;
+    const userId = req.user?.id;
+    const date = req.query.date || new Date().toISOString().slice(0,10);
+
     if (!userId) return res.status(400).json({ error: 'userId is required' });
 
     const user = await User.findById(userId);
@@ -43,3 +58,4 @@ export async function dailyProgress(req, res, next) {
     res.json({ date, totals, goals: user.goals || null });
   } catch (e) { next(e); }
 }
+
