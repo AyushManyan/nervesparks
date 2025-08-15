@@ -12,39 +12,34 @@ import healthRoutes from './routes/healthRoutes.js';
 
 import errorHandler from './middlewares/errorHandler.js';
 
-
 const app = express();
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://nervesparks-r9kl.vercel.app'
-];
 
+// ✅ Allow all origins dynamically, still supports credentials
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Reflects request origin automatically
   credentials: true
 }));
+
+// Parse incoming JSON requests
 app.use(express.json({ limit: '2mb' }));
+
+// Optional logging
 // app.use(morgan('dev'));
 
+// Test route
 app.get('/', (_, res) => res.json({ ok: true, service: 'Recipe RAG API' }));
 
-// Public
+// Public routes
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes); // GETs are public, mutations protected inside
 app.use('/api/health', healthRoutes);
 
-// Auth-required groups
+// Auth-required routes
 app.use('/api/users', userRoutes);
 app.use('/api/recommend', recommendRoutes);
 app.use('/api/intake', intakeRoutes);
 
-// Error handler
+// Error handler middleware
 app.use(errorHandler);
 
 export default app;
