@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
-
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/recipe_rag';
+import dotenv from 'dotenv';
+dotenv.config();
+const uri = process.env.MONGODB_URI;
 mongoose.connect(uri)
-  .then(() => console.log(' MongoDB connected'))
+  .then(() => console.log(' MongoDB connected', uri))
   .catch(err => { console.error(' MongoDB connect error', err); process.exit(1); });

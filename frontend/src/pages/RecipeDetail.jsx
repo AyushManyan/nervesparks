@@ -56,8 +56,8 @@ export default function RecipeDetail(){
   if (!recipe) return <div>Loading...</div>;
 
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+      <div className="max-w-2xl mx-auto w-full px-2 sm:px-4 md:px-8 py-6">
+        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-8 border border-gray-100">
           {warnings.length > 0 && (
             <div className="mb-4">
               {warnings.map((w, i) => (
@@ -67,7 +67,7 @@ export default function RecipeDetail(){
               ))}
             </div>
           )}
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-2">{recipe.name}</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">{recipe.name}</h1>
           <div className="text-base text-gray-500 mb-4 flex flex-wrap gap-2">
             <span className="bg-gray-100 px-2 py-1 rounded">{recipe.cuisine}</span>
             {recipe.tags?.map(tag => (
@@ -76,11 +76,11 @@ export default function RecipeDetail(){
           </div>
           <div className="mt-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">Ingredients</h2>
-            <ul className="list-disc ml-6 space-y-2">
+            <ul className="list-disc ml-4 sm:ml-6 space-y-2">
               {recipe.ingredients.map(ing => (
                 <li key={ing} className="flex flex-col sm:flex-row sm:items-center gap-2">
                   <span className="font-medium text-gray-700">{ing}</span>
-                  <div className="flex gap-2 items-center">
+                  <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
                     <button
                       className="text-xs px-2 py-1 rounded bg-yellow-100 text-yellow-800 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
                       onClick={()=>handleSubstitute(ing)}
@@ -88,7 +88,7 @@ export default function RecipeDetail(){
                       Substitute?
                     </button>
                     {subs[ing] && (
-                      <span className="text-xs px-2 py-1 rounded bg-gray-200 text-gray-600 ml-1">
+                      <span className="text-xs px-2 py-1 rounded bg-gray-200 text-gray-600 ml-0 sm:ml-1">
                         {subs[ing]}
                       </span>
                     )}
@@ -103,20 +103,20 @@ export default function RecipeDetail(){
           </div>
           <div className="mt-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">Nutrition</h2>
-            <div className="flex gap-4 text-gray-700">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 text-gray-700">
               <span>P: <span className="font-bold">{recipe.nutritional_info?.protein ?? '?'}</span> g</span>
               <span>Calories: <span className="font-bold">{recipe.nutritional_info?.calories ?? '?'}</span> kcal</span>
             </div>
           </div>
-          <div className="flex gap-3 mt-8 justify-end">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-8 justify-end w-full">
             <button
-              className="px-4 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              className="px-4 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition w-full sm:w-auto"
               onClick={()=>nav(`/recipes/edit/${id}`)}
             >
               Edit
             </button>
             <button
-              className="px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+              className="px-4 py-2 rounded bg-red-600 text-white font-semibold hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 transition w-full sm:w-auto"
               onClick={handleDelete}
             >
               Delete

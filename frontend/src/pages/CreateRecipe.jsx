@@ -40,7 +40,7 @@ export default function CreateRecipe(){
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto w-full px-2 sm:px-4 md:px-8">
       <div className="card">
         <h2 className="text-xl font-semibold mb-4">Create Recipe</h2>
         <form onSubmit={submit} className="space-y-3">
@@ -49,15 +49,15 @@ export default function CreateRecipe(){
           <input className="w-full p-2 border rounded" value={tags} onChange={e=>setTags(e.target.value)} placeholder="Tags (comma separated)" />
           <input className="w-full p-2 border rounded" value={cuisine} onChange={e=>setCuisine(e.target.value)} placeholder="Cuisine" />
           <textarea className="w-full p-2 border rounded" value={instructions} onChange={e=>setInstructions(e.target.value)} placeholder="Instructions" rows={5} />
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input className="p-2 border rounded" value={calories} onChange={e=>setCalories(e.target.value)} placeholder="Calories" />
             <input className="p-2 border rounded" value={protein} onChange={e=>setProtein(e.target.value)} placeholder="Protein (g)" />
             <input className="p-2 border rounded" value={carbs} onChange={e=>setCarbs(e.target.value)} placeholder="Carbs (g)" />
             <input className="p-2 border rounded" value={fat} onChange={e=>setFat(e.target.value)} placeholder="Fat (g)" />
           </div>
-          <div className="flex gap-2">
-            <button className="btn-primary">Create</button>
-            <button type="button" className="btn-ghost" onClick={()=>window.history.back()}>Cancel</button>
+          <div className="flex flex-col sm:flex-row gap-2 w-full">
+            <button className="btn-primary w-full sm:w-auto">Create</button>
+            <button type="button" className="btn-ghost w-full sm:w-auto" onClick={()=>window.history.back()}>Cancel</button>
           </div>
         </form>
       </div>

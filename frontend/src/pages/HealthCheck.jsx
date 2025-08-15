@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 
 export default function HealthCheck(){
   const [conditions, setConditions] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [result, setResult] = useState(null);
+
+  // Fetch user health conditions from profile on mount
+  useEffect(() => {
+    api.me()
+      .then(res => {
+        const userHealth = (res.data.health_conditions || []).join(', ');
+        setConditions(userHealth);
+      })
+      .catch(console.error);
+  }, []);
 
   async function submit(e) {
     e.preventDefault();
@@ -26,8 +36,18 @@ export default function HealthCheck(){
       <div className="card">
         <h2 className="text-xl font-semibold">Health Check</h2>
         <form className="space-y-2" onSubmit={submit}>
-          <input className="w-full p-2 border rounded" value={conditions} onChange={e=>setConditions(e.target.value)} placeholder="Conditions (comma)" />
-          <input className="w-full p-2 border rounded" value={ingredients} onChange={e=>setIngredients(e.target.value)} placeholder="Ingredients (comma)" />
+          <input
+            className="w-full p-2 border rounded"
+            value={conditions}
+            onChange={e=>setConditions(e.target.value)}
+            placeholder="Conditions (comma)"
+          />
+          <input
+            className="w-full p-2 border rounded"
+            value={ingredients}
+            onChange={e=>setIngredients(e.target.value)}
+            placeholder="Ingredients (comma)"
+          />
           <div className="flex gap-2"><button className="btn-primary">Check</button></div>
         </form>
 

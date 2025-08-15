@@ -65,7 +65,7 @@ export default function RecipeEdit() {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto w-full px-2 sm:px-4 md:px-8">
       <div className="card">
         <h2 className="text-xl font-semibold mb-4">Edit Recipe</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -74,15 +74,15 @@ export default function RecipeEdit() {
           <input className="w-full p-2 border rounded" name="tags" value={form.tags} onChange={handleChange} placeholder="Tags (comma separated)" />
           <input className="w-full p-2 border rounded" name="cuisine" value={form.cuisine} onChange={handleChange} placeholder="Cuisine" />
           <textarea className="w-full p-2 border rounded" name="instructions" value={form.instructions} onChange={handleChange} placeholder="Instructions" rows={5} />
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <input className="p-2 border rounded" name="calories" value={form.calories} onChange={handleChange} placeholder="Calories" />
             <input className="p-2 border rounded" name="protein" value={form.protein} onChange={handleChange} placeholder="Protein (g)" />
             <input className="p-2 border rounded" name="carbs" value={form.carbs} onChange={handleChange} placeholder="Carbs (g)" />
             <input className="p-2 border rounded" name="fat" value={form.fat} onChange={handleChange} placeholder="Fat (g)" />
           </div>
-          <div className="flex gap-2">
-            <button className="btn-primary">Update</button>
-            <button type="button" className="btn-ghost" onClick={() => nav(-1)}>Cancel</button>
+          <div className="flex flex-col sm:flex-row gap-2 w-full">
+            <button className="btn-primary w-full sm:w-auto">Update</button>
+            <button type="button" className="btn-ghost w-full sm:w-auto" onClick={() => nav(-1)}>Cancel</button>
           </div>
         </form>
       </div>

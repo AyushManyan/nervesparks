@@ -24,17 +24,17 @@ export default function Dashboard(){
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-4">
+    <div className="px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 max-w-screen-xl mx-auto w-full">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
         <h1 className="text-2xl font-bold">Recipes</h1>
-        <div className="flex gap-2">
-          <Link to="/recipes/create" className="btn-primary">Add Recipe</Link>
-          <Link to="/recommend" className="btn-ghost">Get Recommendations</Link>
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <Link to="/recipes/create" className="btn-primary w-full sm:w-auto">Add Recipe</Link>
+          <Link to="/recommend" className="btn-ghost w-full sm:w-auto">Get Recommendations</Link>
         </div>
       </div>
 
       {loading ? <div>Loading...</div> : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {recipes.map(r => <RecipeCard key={r._id} recipe={r} onDelete={handleDelete} />)}
         </div>
       )}

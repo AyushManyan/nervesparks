@@ -29,7 +29,7 @@ export default function Register(){
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8">
+    <div className="max-w-md mx-auto w-full px-2 sm:px-4 md:px-8 mt-8">
       <div className="card">
         <h2 className="text-xl font-semibold mb-4">Register</h2>
         {err && <div className="text-red-600 mb-2">{err}</div>}

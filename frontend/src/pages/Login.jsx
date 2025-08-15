@@ -24,7 +24,7 @@ export default function Login(){
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8">
+    <div className="max-w-md mx-auto w-full px-2 sm:px-4 md:px-8 mt-8">
       <div className="card">
         <h2 className="text-xl font-semibold mb-4">Login</h2>
         {err && <div className="text-red-600 mb-2">{err}</div>}
@@ -33,7 +33,7 @@ export default function Login(){
           <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="Password" type="password" className="w-full p-2 border rounded" />
           <button className="btn-primary w-full">Login</button>
         </form>
-        <div className="mt-3 text-sm">No account? <Link to="/register" className="text-brand-600">Register</Link></div>
+        <div className="mt-3 text-sm text-center sm:text-left">No account? <Link to="/register" className="text-brand-600">Register</Link></div>
       </div>
     </div>
   );
