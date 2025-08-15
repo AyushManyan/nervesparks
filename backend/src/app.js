@@ -13,7 +13,10 @@ import healthRoutes from './routes/healthRoutes.js';
 import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin:"*"
+}));
+
 app.use(express.json({ limit: '2mb' }));
 app.use(morgan('dev'));
 
