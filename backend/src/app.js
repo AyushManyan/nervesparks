@@ -11,16 +11,20 @@ import intakeRoutes from './routes/intakeRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 
 import errorHandler from './middlewares/errorHandler.js';
+const cors = require('cors');
 
 const app = express();
-const cors = require('cors');
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
 }));
 
 app.use(express.json({ limit: '2mb' }));
-app.use(morgan('dev'));
+    app.use(cors({
+      origin: 'http://localhost:5173',
+      credentials: true
+    }));
+// app.use(morgan('dev'));
 
 app.get('/', (_, res) => res.json({ ok: true, service: 'Recipe RAG API' }));
 
