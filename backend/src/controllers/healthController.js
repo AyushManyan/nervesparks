@@ -1,4 +1,4 @@
-// Simple health-condition rules demo (extend as needed)
+
 const RULES = {
   diabetes: {
     avoid: ['sugar', 'jaggery', 'honey', 'syrup', 'sweetened'],

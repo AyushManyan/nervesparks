@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import morgan from 'morgan';
 import './config/db.js';
 
 import authRoutes from './routes/authRoutes.js';
@@ -14,9 +13,8 @@ import errorHandler from './middlewares/errorHandler.js';
 
 const app = express();
 
-// ✅ Global CORS + Preflight handling
 app.use(cors({
-  origin: true, // Reflects request origin
+  origin: true,
   credentials: true
 }));
 app.options('*', cors({
@@ -25,7 +23,6 @@ app.options('*', cors({
 }));
 
 app.use(express.json({ limit: '2mb' }));
-// app.use(morgan('dev'));
 
 app.get('/', (_, res) => res.json({ ok: true, service: 'Recipe RAG API' }));
 

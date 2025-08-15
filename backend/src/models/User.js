@@ -10,7 +10,7 @@ const GoalsSchema = new mongoose.Schema({
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, unique: true, sparse: true, required: true },
-  password: { type: String, required: true }, // hashed
+  password: { type: String, required: true },
   diet: [String],                 // e.g., ["vegetarian", "vegan", "gluten-free"]
   allergies: [String],
   disliked: [String],

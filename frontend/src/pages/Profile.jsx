@@ -8,7 +8,6 @@ export default function Profile() {
     goals: {}
   });
 
-  // Raw input states for comma-separated fields
   const [dietInput, setDietInput] = useState("");
   const [allergiesInput, setAllergiesInput] = useState("");
   const [healthConditionsInput, setHealthConditionsInput] = useState("");

@@ -1,7 +1,7 @@
 import Recipe from '../models/Recipe.js';
 import { embedText, recipeToEmbedText } from '../services/embeddingService.js';
 import { getSubstitutes } from '../services/substitutionService.js';
-// Ingredient substitution API
+
 export function substituteIngredient(req, res, next) {
   try {
     const ingredient = req.params.ingredient;

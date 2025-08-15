@@ -21,7 +21,6 @@ export default function Nav(){
           RecipeRAG
         </Link>
 
-        {/* Mobile menu button */}
         <button
           className="md:hidden flex items-center px-2 py-1 border rounded text-brand-700 border-brand-500 focus:outline-none"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -32,7 +31,6 @@ export default function Nav(){
           </svg>
         </button>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-3">
           {user ? (
             <>
@@ -52,7 +50,6 @@ export default function Nav(){
         </nav>
       </div>
 
-      {/* Mobile nav menu */}
       <nav
         className={`md:hidden bg-brand-50 border-t border-gray-100 px-4 pt-2 pb-4 ${menuOpen ? 'block' : 'hidden'}`}
       >

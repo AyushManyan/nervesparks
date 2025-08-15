@@ -5,12 +5,11 @@ import User from '../models/User.js';
 export async function logIntake(req, res, next) {
 
   try {
-    console.log("runnig log take reqdlm");
     
     const { recipeId, serving = 1 } = req.body || {};
     var date = new Date().toISOString().slice(0, 10);
     const userId = req.user?.id; 
-    console.log(userId , recipeId, serving, date);
+    
     
     if (!userId || !recipeId) {
       return res.status(400).json({ error: 'userId and recipeId required' });

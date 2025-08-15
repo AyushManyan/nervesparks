@@ -10,11 +10,9 @@ export default function Recommend(){
   async function submit(e) {
     e.preventDefault();
     setLoading(true);
-    console.log("user" ,user.id);
     
     try {
       const res = await api.recommend({ userId: user?.id, preferences });
-      console.log("recommendation response", res.data);
       setResult(res.data);
     } catch (err) {
       console.error(err);

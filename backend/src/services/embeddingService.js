@@ -1,13 +1,9 @@
 import { pipeline, env } from '@xenova/transformers';
 
-// Set a custom cache directory
 env.cacheDir = './cache';
-// Log the cache directory path for manual clearing
-console.log('Cache directory path:', env.cacheDir);
 
-// Log the model ID being used
+
 const defaultModel = 'sentence-transformers/all-MiniLM-L6-v2';
-console.log('Using model ID:', process.env.EMBED_MODEL || defaultModel);
 
 let embedderPromise;
 
@@ -16,8 +12,6 @@ export function getEmbedder() {
     const modelId = process.env.EMBED_MODEL || defaultModel;
     // Explicitly configure the pipeline to avoid quantized models
     embedderPromise = pipeline('feature-extraction', modelId, { quantized: false });
-    // Log the model URL being requested
-    console.log('Pipeline initialized with model ID:', modelId);
   }
   return embedderPromise;
 }

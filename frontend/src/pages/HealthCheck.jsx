@@ -6,7 +6,7 @@ export default function HealthCheck(){
   const [ingredients, setIngredients] = useState('');
   const [result, setResult] = useState(null);
 
-  // Fetch user health conditions from profile on mount
+
   useEffect(() => {
     api.me()
       .then(res => {

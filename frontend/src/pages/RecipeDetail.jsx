@@ -12,7 +12,7 @@ export default function RecipeDetail(){
   useEffect(()=>{
     api.getRecipe(id).then(res => {
       setRecipe(res.data);
-      // Dietary restriction checks
+
       const user = getUser();
       if (user) {
         const restrictions = (user.diet||[]).map(s=>s.toLowerCase());

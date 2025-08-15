@@ -10,14 +10,12 @@ const DailyProgress = () => {
   useEffect(() => {
     const token = getToken();
     if (token) {
-      // Always fetch latest user info if logged in
       api.me()
         .then(res => {
           setUser(res.data);
-          // Always overwrite progress with latest API response
           api.dailyProgress()
             .then(res2 => {
-              setProgress(res2.data); // Only today's progress
+              setProgress(res2.data); 
               setLoading(false);
             })
             .catch(() => {
