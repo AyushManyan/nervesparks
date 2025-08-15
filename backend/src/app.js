@@ -11,14 +11,24 @@ import intakeRoutes from './routes/intakeRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 
 import errorHandler from './middlewares/errorHandler.js';
-const cors = require('cors');
+
 
 const app = express();
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://nervesparks-r9kl.vercel.app'
+];
+
 app.use(cors({
-  origin: 'https://nervesparks-r9kl.vercel.app',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
-
 app.use(express.json({ limit: '2mb' }));
 // app.use(morgan('dev'));
 
